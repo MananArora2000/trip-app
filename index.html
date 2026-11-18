@@ -8,11 +8,17 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Trips">
+<meta name="apple-mobile-web-app-title" content="Our trips">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
-<title>Trips</title>
+<title>Our trips</title>
+<script>
+(function(){ var m; try { m = localStorage.getItem('theme') || 'auto'; } catch(e){ m = 'auto'; }
+  var l = m === 'light' || (m === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches);
+  document.documentElement.classList.toggle('light', l);
+  document.querySelector('meta[name=theme-color]').setAttribute('content', l ? '#f6f3ee' : '#090b10'); })();
+</script>
 <style>
 :root{
   --bg:#08090d;--card:#11141b;--card2:#191d27;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);
@@ -288,6 +294,166 @@ nav.tabs button.on{color:var(--ac)}
 .toast.on{opacity:1}
 .upd{position:fixed;left:16px;right:16px;bottom:calc(84px + var(--safe-b));z-index:30;max-width:648px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#1d2533;border:1px solid rgba(124,196,255,.35);border-radius:16px;padding:11px 14px;font-size:14px}
 .foot{color:var(--faint);font-size:12px;text-align:center;margin:28px 0 8px}
+
+/* v4 */
+:root{--ease:cubic-bezier(.2,.8,.2,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+#view.enter>*{animation:rise .44s var(--ease) backwards}
+#view.enter>*:nth-child(2){animation-delay:.04s}#view.enter>*:nth-child(3){animation-delay:.08s}#view.enter>*:nth-child(4){animation-delay:.12s}
+#view.enter>*:nth-child(5){animation-delay:.16s}#view.enter>*:nth-child(6){animation-delay:.2s}#view.enter>*:nth-child(7){animation-delay:.24s}
+#view.enter>*:nth-child(n+8){animation-delay:.27s}
+#view.dr>*:not(.strip){animation:fromR .34s var(--ease) backwards}
+#view.dl>*:not(.strip){animation:fromL .34s var(--ease) backwards}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+@keyframes fromR{from{opacity:0;transform:translateX(28px)}}
+@keyframes fromL{from{opacity:0;transform:translateX(-28px)}}
+@keyframes fadein{from{opacity:0}}
+@keyframes fadeout{to{opacity:0}}
+@keyframes sheetup{from{transform:translateY(105%)}}
+@keyframes sheetdown{to{transform:translateY(105%)}}
+@keyframes ovin{from{opacity:0;transform:translateX(32px)}}
+@keyframes ovout{to{opacity:0;transform:translateX(32px)}}
+@keyframes zoomin{from{opacity:0;transform:scale(.94)}}
+@keyframes pop{0%{transform:scale(.82)}55%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes sun{to{transform:translateY(-5px)}}
+button,a.mini,a.chip,.tile,.menu button,.dc,.tcard{transition:transform .14s var(--ease),background-color .2s,border-color .2s,opacity .2s}
+button:active,a.mini:active,a.chip:active{transform:scale(.96)}
+.tile:active,.menu button:active,.tcard:active,.card[data-sub]:active{transform:scale(.975)}
+nav.tabs{position:fixed}
+nav.tabs .ind{position:absolute;top:-1px;left:0;width:20%;height:3px;display:flex;justify-content:center;pointer-events:none;transition:transform .42s var(--spring)}
+nav.tabs .ind::after{content:'';width:30px;height:3px;border-radius:0 0 3px 3px;background:var(--ac);box-shadow:0 0 14px var(--ac)}
+nav.tabs button.on svg{animation:pop .42s var(--spring)}
+#sheet:not(.hidden){animation:fadein .2s ease}
+#sheet:not(.hidden) .in{animation:sheetup .36s var(--ease)}
+#sheet.closing{animation:fadeout .22s ease forwards}
+#sheet.closing .in{animation:sheetdown .22s cubic-bezier(.4,0,1,1) forwards}
+.ov:not(.hidden){animation:ovin .3s var(--ease)}
+.ov.closing{animation:ovout .2s ease forwards}
+#full:not(.hidden){animation:zoomin .26s var(--ease)}
+.toast{transform:translate(-50%,10px);transition:opacity .2s,transform .3s var(--spring)}
+.toast.on{transform:translate(-50%,0)}
+.chk input:checked{animation:pop .32s var(--spring)}
+.hero .scene circle{animation:sun 6s ease-in-out infinite alternate}
+.upd{animation:rise .4s var(--ease)}
+#srch{position:absolute;right:0;bottom:0;width:42px;height:42px;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--text);display:grid;place-items:center;padding:0}
+#srch svg{width:19px;height:19px}
+header.top #tripBtn{padding-right:52px}
+.qwrap,.wsearch{position:relative;display:flex;align-items:center}
+.qwrap svg,.wsearch svg{position:absolute;left:13px;width:18px;height:18px;color:var(--faint);pointer-events:none}
+.qwrap .field,.wsearch input{padding-left:40px}
+.wsearch{margin:0 0 6px}
+.wsearch input{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:14px;color:var(--text);padding:12px 40px 12px 40px;font-size:16px;outline:none;transition:border-color .2s}
+.wsearch input:focus,.qwrap .field:focus{border-color:var(--ac)}
+.wsearch #wqx{position:absolute;right:6px;width:32px;height:32px;border-radius:50%;border:0;background:var(--card2);color:var(--muted);font-size:13px}
+#q{font-size:16px}
+.sr{display:block;width:100%;text-align:left;background:transparent;border:0;border-top:1px solid var(--line);padding:11px 4px;color:var(--text);text-decoration:none;font:inherit}
+.sr .h{font-weight:650;font-size:15px}
+.sr .s{color:var(--muted);font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sr .tg{display:inline-block;margin-top:4px;font-size:11.5px;color:var(--gold2);font-weight:650}
+.sr mark{background:rgba(232,176,75,.25);color:inherit;border-radius:3px;padding:0 1px}
+.stay{border-radius:22px;padding:15px 16px;margin-bottom:12px;background:linear-gradient(180deg,rgba(124,196,255,.08),rgba(124,196,255,.02));border:1px solid rgba(124,196,255,.22)}
+.stay .lbl{display:flex;justify-content:space-between;gap:10px;color:#9fd2ff;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700}
+.stay .h{display:flex;align-items:center;gap:9px;font:600 20px/1.25 var(--serif);margin:8px 0 4px}
+.stay .h svg{width:19px;height:19px;color:#9fd2ff;flex-shrink:0}
+.stay .s{color:var(--muted);font-size:13.5px}
+.stay .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
+.stay .act{display:flex;gap:8px;flex-shrink:0}
+.spent{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px 12px 16px}
+.spent .sp{background:none;border:0;padding:0;text-align:left;color:var(--text)}
+.spent .l{color:var(--faint);font-size:11px;font-weight:650;letter-spacing:.8px;text-transform:uppercase}
+.spent .v{font-weight:700;font-size:19px;font-variant-numeric:tabular-nums}
+.spent .v small{font-size:12.5px;color:var(--muted);font-weight:600}
+.spent .mini{margin:0}
+.btn.ghost{display:block;text-align:center;background:transparent;color:var(--text);border:1px solid var(--line2)}
+.btn svg{width:18px;height:18px;vertical-align:-3px;margin-right:4px}
+
+/* ---------- light theme ---------- */
+html.light{color-scheme:light}
+html.light{--bg:#f6f3ee;--card:#ffffff;--card2:#f1ede6;--line:rgba(40,30,15,.08);--line2:rgba(40,30,15,.15);
+  --text:#1c1e23;--muted:#5c6370;--faint:#8b919c;--gold:#c8902a;--gold2:#94650f;--blue:#2a74c4;--green:#1f8f52;--rose:#cc4444}
+html.light .t-eg{--ac:#c08417;--ac2:#f7e6c4}html.light .t-th{--ac:#0f9384;--ac2:#d3f0eb}html.light .t-in{--ac:#d9692b;--ac2:#fde1cf}
+html.light .t-uk{--ac:#3473d9;--ac2:#dbe7fb}html.light .t-us{--ac:#4566d6;--ac2:#dfe5fa}html.light .t-vn{--ac:#d9533f;--ac2:#fbded8}
+html.light .t-sea{--ac:#13968a;--ac2:#d3f0ec}html.light .t-hill{--ac:#4a922a;--ac2:#e1f1d6}html.light .t-alp{--ac:#3586cc;--ac2:#daeaf9}
+html.light body{background:var(--bg)}
+html.light body::before{content:'';position:fixed;top:0;left:0;right:0;height:var(--safe-t);background:#23262d;z-index:100;pointer-events:none}
+html.light #lock{background:radial-gradient(90% 60% at 50% 8%,#f7e2b8 0%,rgba(247,226,184,0) 70%),radial-gradient(80% 50% at 50% 100%,#cdeee9 0%,rgba(205,238,233,0) 70%),var(--bg)}
+html.light #lock input#pass{background:#fff}
+html.light .btn{background:linear-gradient(180deg,#f3cb73,#dfa23b);color:#2a1c04}
+html.light .btn.ghost{background:transparent;color:var(--text)}
+html.light .pill.ok{color:#1d7a46}
+html.light .alert{background:rgba(42,116,196,.07);border-color:rgba(42,116,196,.25);color:#24507e}
+html.light .alert b{color:#0f2d4d}
+html.light .ti .dt i{background:#fff}
+html.light .ti.cur .dt i{color:#fff;box-shadow:0 0 0 5px rgba(0,0,0,.05)}
+html.light .k-flight,html.light .k-airport{--kc:#2a74c4}html.light .k-car,html.light .k-info{--kc:#6a7282}html.light .k-hotel{--kc:#c08417}
+html.light .k-food{--kc:#c4632e}html.light .k-sight{--kc:#b0820f}html.light .k-work{--kc:#6a5ad0}html.light .k-shop{--kc:#c2468f}
+html.light .k-party{--kc:#c28d12}html.light .k-todo{--kc:#d13f3f}html.light .k-money{--kc:#1f8f52}
+html.light .mini{color:#1f63ab;background:rgba(42,116,196,.08);border-color:rgba(42,116,196,.3)}
+html.light .mini.g{color:#8a5c0b;background:rgba(200,144,42,.1);border-color:rgba(200,144,42,.38)}
+html.light .mini.n{color:var(--text);background:var(--card2);border-color:var(--line2)}
+html.light .dc.on{color:rgba(255,255,255,.85)}html.light .dc.on .n{color:#fff}html.light .dc.on:after{background:#fff}
+html.light textarea.jr,html.light .field,html.light .ref{background:#fff}
+html.light .ic{background:rgba(200,144,42,.13);color:#94650f}
+html.light .ic.plane{background:rgba(42,116,196,.11);color:#2a74c4}html.light .ic.shield{background:rgba(31,143,82,.11);color:#1f8f52}
+html.light .ic.car{background:rgba(106,114,130,.12);color:#555d6c}html.light .ic.id{background:rgba(194,70,143,.1);color:#b23f82}
+html.light .ic.walk{background:rgba(15,147,132,.11);color:#0f8577}html.light .ic.book{background:rgba(106,90,208,.11);color:#5e4fc4}
+html.light .seg button.on{color:#fff}
+html.light .segbar{background:var(--card2)}
+html.light .segbar button.on{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+html.light .num{color:#111}
+html.light .prose{color:#2a2d33}html.light .prose h2,html.light .prose strong{color:#111}
+html.light .prose blockquote{background:rgba(0,0,0,.035);color:#22252b}
+html.light .prose figure img{background:#e8e3da}
+html.light .toc{background:var(--card)}
+html.light .pbar{background:rgba(0,0,0,.07)}
+html.light .chip.wa{color:#1d7f46;border-color:rgba(31,143,82,.35)}
+html.light .chip.red{color:#bf3a3a;border-color:rgba(204,68,68,.35);background:rgba(204,68,68,.06)}
+html.light .ov{background:var(--bg)}
+html.light .ov .bar{background:rgba(255,255,255,.92)}
+html.light #vwSc .pg{box-shadow:0 4px 18px rgba(0,0,0,.14)}
+html.light #vwSc .pg.ph{background:linear-gradient(90deg,#ece8e1,#f7f4ef,#ece8e1);background-size:200% 100%}
+html.light #sheet{background:rgba(20,20,25,.28)}
+html.light #sheet .in{background:var(--bg)}
+html.light nav.tabs{background:rgba(250,248,244,.88)}
+html.light .upd{background:#e9f1fb;border-color:rgba(42,116,196,.35);color:var(--text)}
+html.light .stay{background:linear-gradient(180deg,rgba(42,116,196,.08),rgba(42,116,196,.02));border-color:rgba(42,116,196,.22)}
+html.light .stay .lbl,html.light .stay .h svg{color:#2a74c4}
+html.light .now{background:linear-gradient(180deg,rgba(200,144,42,.16),rgba(200,144,42,.04));border-color:rgba(200,144,42,.38)}
+html.light .sr mark{background:rgba(200,144,42,.25)}
+html.light .card,html.light .tile,html.light .menu button,html.light .chipx,html.light .dc{box-shadow:0 1px 2px rgba(60,40,10,.05)}
+html.light .rate-in{background:#fff;color:var(--text)}
+
+/* v4b */
+html.light .ti.cur .dt i{background:var(--kc)}
+.field,textarea.jr{font-size:16px}
+input[type=search]{-webkit-appearance:none;appearance:none}
+#wq::-webkit-search-cancel-button{display:none;-webkit-appearance:none}
+.route{display:flex;overflow-x:auto;margin:-2px -16px 16px;padding:6px 16px 4px;scrollbar-width:none}
+.route::-webkit-scrollbar{display:none}
+.stop{position:relative;flex:0 0 auto;min-width:96px;padding:22px 12px 2px 0;background:none;border:0;text-align:left;color:var(--text)}
+.stop::before{content:'';position:absolute;top:9px;left:14px;right:2px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--ac),var(--line2))}
+.stop:last-child::before{display:none}
+.stop i{position:absolute;top:4px;left:0;width:12px;height:12px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 4px var(--ac2)}
+.stop b{display:block;font-size:14px;font-weight:700;white-space:nowrap}
+.stop small{display:block;color:var(--muted);font-size:12px;white-space:nowrap}
+.stop.done{opacity:.5}
+.stop.cur i{animation:ping 1.8s ease-out infinite}
+.stop.cur b{color:var(--ac)}
+.stop.home i{background:var(--card2);border:2px solid var(--line2);box-shadow:none}
+@keyframes ping{0%{box-shadow:0 0 0 0 var(--ac)}70%{box-shadow:0 0 0 9px rgba(0,0,0,0)}100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}}
+.dc.all .n{font:700 17px/1.4 var(--sans)}
+.ovl .sec:first-child{margin-top:4px}
+.ovd{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:11px 13px;margin-bottom:8px;color:var(--text)}
+.ovd .dd{flex:0 0 46px;text-align:center;border-radius:13px;background:var(--ac2);padding:6px 0 5px;color:var(--ac)}
+.ovd .dd span{display:block;font-size:10.5px;font-weight:750;letter-spacing:.8px;text-transform:uppercase}
+.ovd .dd b{display:block;font:600 21px/1.05 var(--serif);color:var(--text)}
+.ovd .mid{flex:1;min-width:0}
+.ovd .h{font-weight:650;line-height:1.25}
+.ovd .s{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.ovd .rt{flex-shrink:0;text-align:right;font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
+.ovd.td{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.ovd.pastd{opacity:.55}
+.ovd .s svg{width:13px;height:13px;vertical-align:-2px;color:var(--faint)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (min-width:600px){.grid{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
@@ -322,6 +488,8 @@ nav.tabs button.on{color:var(--ac)}
  <symbol id="i-sos" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v6m0 3.5v.5"/></symbol>
  <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z"/></g></symbol>
  <symbol id="i-lock" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M6 10h12v10H6zM8.5 10V7a3.5 3.5 0 0 1 7 0v3"/></symbol>
+ <symbol id="i-search" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" d="M10.5 17.5a7 7 0 1 1 0-14 7 7 0 0 1 0 14zM15.6 15.6 21 21"/></symbol>
+ <symbol id="i-sync" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4.5 9.5A8 8 0 0 1 18.4 7L20 8.6M20 4v4.6h-4.6M19.5 14.5A8 8 0 0 1 5.6 17L4 15.4M4 20v-4.6h4.6"/></symbol>
 </defs></svg>
 
 <div id="lock">
@@ -337,12 +505,12 @@ nav.tabs button.on{color:var(--ac)}
 </div>
 
 <div id="app" class="hidden">
-  <header class="top"><div class="sub" id="hdrSub"></div><button id="tripBtn"><h2 id="hdrTitle"></h2><span class="chev">⌄</span></button><span id="net" class="pill"><span class="d"></span><span id="netT"></span></span></header>
+  <header class="top"><div class="sub" id="hdrSub"></div><button id="tripBtn"><h2 id="hdrTitle"></h2><span class="chev">⌄</span></button><span id="net" class="pill"><span class="d"></span><span id="netT"></span></span><button id="srch" aria-label="Search everything"><svg viewBox="0 0 24 24"><use href="#i-search"/></svg></button></header>
   <main id="view"></main>
   <div class="foot" id="foot"></div>
 </div>
 
-<nav class="tabs hidden" id="tabs">
+<nav class="tabs hidden" id="tabs"><i class="ind"></i>
   <button data-v="today"><svg viewBox="0 0 24 24"><use href="#i-sun"/></svg>Today</button>
   <button data-v="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Plan</button>
   <button data-v="wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14.5 5v12" stroke-dasharray="2 2.2"/></svg>Wallet</button>
@@ -357,7 +525,7 @@ nav.tabs button.on{color:var(--ac)}
 <div class="toast" id="toast"></div>
 
 <script>
-const PAYLOAD = {"v": 3, "iter": 310000, "salt": "qC1aTPpnaSsbZaGW02Cpug==", "iv": "OvnEDDGO9OxR9Zbz", "ct": "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"};
+const PAYLOAD = {"v": 3, "iter": 310000, "salt": "qC1aTPpnaSsbZaGW02Cpug==", "iv": "ihPA+Kg8tW7wbi0N", "ct": "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"};
 const LS = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}}};
 const LJ = (k, d) => { try { const v = LS.get(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } };
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -386,7 +554,7 @@ const DOCLBL = {plane:'Ticket', bed:'Booking', id:'Show', car:'Booking', doc:'Op
 const KIND_COLOR = {hotel:'#e8b04b', sight:'#f6d58e', food:'#eaa67a', shop:'#ef9ad0', airport:'#7cc4ff', car:'#b3bccd', party:'#ffd36b'};
 const WX = c => c===0?['☀️','Clear']:c<=2?['🌤','Partly cloudy']:c===3?['☁️','Cloudy']:c<=48?['🌫','Fog']:c<=57?['🌦','Drizzle']:c<=67?['🌧','Rain']:c<=77?['🌨','Snow']:c<=82?['🌦','Showers']:['⛈','Storm'];
 
-let K = null, IDX = null, T = null, TI = null, view = 'today', sub = null, sel = null, exSeg = 'guides', area = null, GEO = null;
+let ANIM = null, K = null, IDX = null, T = null, TI = null, view = 'today', sub = null, sel = null, exSeg = 'guides', area = null, GEO = null;
 const TRIPS = {};
 const OFF = {done:new Set(), total:0, busy:false};
 
@@ -396,7 +564,7 @@ async function copy(txt, label){ try{ await navigator.clipboard.writeText(txt); 
 /* ---------- crypto & files ---------- */
 async function deriveKey(pass){
   const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
-  return crypto.subtle.deriveKey({name:'PBKDF2', salt:b64(PAYLOAD.salt), iterations:PAYLOAD.iter, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, true, ['decrypt']);
+  return crypto.subtle.deriveKey({name:'PBKDF2', salt:b64(PAYLOAD.salt), iterations:PAYLOAD.iter, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, true, ['encrypt','decrypt']);
 }
 async function decInline(key){ const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:b64(PAYLOAD.iv)}, key, b64(PAYLOAD.ct)); return JSON.parse(new TextDecoder().decode(pt)); }
 const furl = f => 'd/' + f + '.webp';
@@ -431,7 +599,7 @@ async function precache(){
     if (OFF.done.size % 6 === 0) pill();
   }
   OFF.busy = false; pill();
-  if (view === 'wallet' || view === 'today') render(true);
+  if ((view === 'wallet' || view === 'today') && !(document.activeElement && document.activeElement.matches('input,textarea'))) render(true);
 }
 const docReady = f => f.p.every(p => OFF.done.has(furl(p.f)));
 function pill(){
@@ -458,7 +626,7 @@ async function wxFetch(city, force){
   const old = wxGet(city);
   if (!navigator.onLine || (!force && old && Date.now() - old.at < 3*3600e3)) return old;
   try {
-    const u = `https://api.open-meteo.com/v1/forecast?latitude=${city.ll[0]}&longitude=${city.ll[1]}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7`;
+    const u = `https://api.open-meteo.com/v1/forecast?latitude=${city.ll[0]}&longitude=${city.ll[1]}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=16`;
     const r = await fetch(u); if (!r.ok) return old;
     const j = await r.json(), v = {at:Date.now(), cur:j.current, daily:j.daily};
     LS.set('wx:' + city.id, JSON.stringify(v)); return v;
@@ -506,7 +674,7 @@ function timeline(items, opts={}){
     let cls = 'ti k-' + (it.k || 'info');
     if (opts.live && timed && ((nx >= 0 && i < nx) || nx === -1)) cls += ' past';
     if (opts.live && i === nx) cls += ' cur';
-    const acts = docBtn(it.d);
+    const acts = docBtn(it.d) + flBtns(it);
     return `<div class="${cls}"><div class="tm ${timed?'':'x'}">${esc(it.t)}</div><div class="dt"><i>${ico(it.k || 'info')}</i></div>
       <div><div class="h">${esc(it.h)}</div>${it.s?`<div class="s">${esc(it.s)}</div>`:''}${acts?`<div class="acts">${acts}</div>`:''}</div></div>`;
   }).join('') + `</div>`;
@@ -525,7 +693,7 @@ function prepHTML(limit){
 function relTime(t){ const now = new Date(), d = mins(t) - (now.getHours()*60 + now.getMinutes()); if (d <= 0) return 'now'; return d < 60 ? `in ${d} min` : `in ${Math.floor(d/60)} h ${pad(d%60)} m`; }
 function tile(f){
   const ok = docReady(f);
-  return `<button class="tile" data-doc="${f.id}"><div class="ic ${f.ic}">${ico(f.ic)}</div><div><div class="h">${esc(f.h)}</div><div class="s">${esc(f.s)}</div></div>
+  return `<button class="tile" data-doc="${f.id}" data-q="${esc((f.h + ' ' + f.s + ' ' + f.g).toLowerCase())}"><div class="ic ${f.ic}">${ico(f.ic)}</div><div><div class="h">${esc(f.h)}</div><div class="s">${esc(f.s)}</div></div>
     <div class="f"><span>${f.p.length} page${f.p.length===1?'':'s'}</span><span class="${ok?'ok':''}">${ok?'✓ Offline':'Online'}</span></div></button>`;
 }
 function gtile(g){ return `<button class="tile" data-guide="${g.id}"><div class="ic ${g.ic}">${ico(g.ic)}</div><div><div class="h">${esc(g.h)}</div><div class="s">${esc(g.s)}</div></div><div class="f"><span>${esc(g.tag || '')}</span><span>${g.mins ? g.mins + ' min read' : ''}</span></div></button>`; }
@@ -544,6 +712,230 @@ function notesTrip(){
   return h + `<div class="card prose" id="notesBody">${T.html}</div>`;
 }
 
+/* ---------- v4: stays, flights, forecast, rates, sync, search ---------- */
+const CCY = {th:'THB', eg:'EGP', in:'INR'};
+const placeById = id => T.places && T.places.places.find(p => p.id === id);
+const todayDay = () => TI && TI.kind === 'full' && T.data ? T.data.days.find(d => d.date === ymd(new Date())) : null;
+function mapLinks(p, name){
+  const q = p && p.ll ? `${p.ll[0]},${p.ll[1]}` : encodeURIComponent((p && (p.q || p.n)) || name);
+  const ap = p && p.ll ? `https://maps.apple.com/?ll=${q}&q=${encodeURIComponent(p.n)}` : `https://maps.apple.com/?q=${q}`;
+  return `<a class="mini n" href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">${ico('pin')}Google Maps</a><a class="mini n" href="${ap}" target="_blank" rel="noopener">Apple Maps</a>`;
+}
+const stayOn = date => (T.data.stays || []).find(s => s.from <= date && date < s.to);
+function stayHTML(s, date, lbl){
+  const n = daysBetween(s.from, s.to), k = daysBetween(s.from, date) + 1, acts = (s.ph ? tel(s.ph) : '') + (s.wa ? wa(s.wa) : '');
+  return `<div class="stay"><div class="lbl"><span>${esc(lbl || 'Tonight')}</span><span>Night ${k} of ${n}</span></div>
+    <div class="h">${ico('bed')}<span>${esc(s.n)}</span></div>${s.addr?`<div class="s">${esc(s.addr)}</div>`:''}${s.s?`<div class="s">${esc(s.s)}</div>`:''}
+    <div class="row"><button class="ref" data-copy="${esc(s.r)}">${esc(s.r)}</button><div class="act">${acts}</div></div>
+    <div class="acts">${docBtn(s.d)}${s.drv!=null?`<button class="mini g" data-drv="${s.drv}">${ico('car')}Driver card</button>`:''}${mapLinks(placeById(s.pl), s.n)}</div></div>`;
+}
+function stayChip(date){ const s = stayOn(date); return s ? `<button class="mini n" data-stay="${date}">${ico('bed')}${esc(s.n.replace(/ (Wellness Resort|Resort & Spa|Resort)$/, ''))}</button>` : ''; }
+function flBtns(it){ return it.fl && navigator.onLine ? it.fl.map(f => `<a class="mini n" href="https://www.flightradar24.com/data/flights/${f.toLowerCase()}" target="_blank" rel="noopener">${ico('flight')}${esc(f.replace(/^([A-Z0-9]{2})(\d)/, '$1 $2'))} live</a>`).join('') : ''; }
+function dayWx(day){
+  const c = cityOf(day.city); if (!c) return null;
+  const w = wxGet(c);
+  if (w && w.daily){ const i = w.daily.time.indexOf(day.date); if (i >= 0) return {e:WX(w.daily.weather_code[i])[0], hi:Math.round(w.daily.temperature_2m_max[i]), lo:Math.round(w.daily.temperature_2m_min[i]), p:(w.daily.precipitation_probability_max || [])[i]}; }
+  return c.nm ? {typ:1, hi:c.nm[0], lo:c.nm[1]} : null;
+}
+function wxChip(day){ const x = dayWx(day); if (!x) return ''; return x.typ ? `<span class="mini n">Dec average ${x.hi}° / ${x.lo}°</span>` : `<button class="mini n" data-x="wx">${x.e} ${x.hi}° / ${x.lo}°${x.p >= 30 ? ` · rain ${x.p}%` : ''}</button>`; }
+function legs(){
+  const out = [];
+  T.data.days.forEach(d => { const L = out[out.length - 1]; if (L && L.city === d.city) L.days.push(d); else out.push({city:d.city, c:d.c, days:[d]}); });
+  return out.map(L => Object.assign(L, {from:L.days[0].date, to:L.days[L.days.length - 1].date, n:((cityOf(L.city) || {}).n || L.city).replace(' & Giza', '')}));
+}
+function shortRange(a, b){ const x = parseD(a), y = parseD(b); return a === b ? `${x.getDate()} ${MO[x.getMonth()]}` : x.getMonth() === y.getMonth() ? `${x.getDate()}–${y.getDate()} ${MO[y.getMonth()]}` : `${x.getDate()} ${MO[x.getMonth()]} – ${y.getDate()} ${MO[y.getMonth()]}`; }
+function routeHTML(){
+  if (!T.places) return '';
+  const today = ymd(new Date()), L = legs(), end = T.data.trip.end;
+  return `<div class="route">` + L.map(l => { const st = today > l.to ? 'done' : today >= l.from ? 'cur' : ''; return `<button class="stop t-${l.c} ${st}" data-goday="${l.from}"><i></i><b>${esc(l.n)}</b><small>${esc(shortRange(l.from, l.to))}</small></button>`; }).join('')
+    + `<div class="stop home ${today > end ? 'cur' : ''}"><i></i><b>Home</b><small>${esc(shortRange(end, end))}</small></div></div>`;
+}
+function overviewHTML(){
+  const today = ymd(new Date());
+  return `<div class="ovl">` + legs().map(l => `<div class="sec">${esc(l.n)} <span>${esc(shortRange(l.from, l.to))}</span></div>` + l.days.map(d => {
+    const dt = parseD(d.date), first = d.items.find(it => isTime(it.t)), w = dayWx(d), st = stayOn(d.date);
+    return `<button class="ovd t-${d.c} ${d.date === today ? 'td' : ''} ${d.date < today ? 'pastd' : ''}" data-sel="${d.date}"><div class="dd"><span>${WK[dt.getDay()]}</span><b>${dt.getDate()}</b></div>
+      <div class="mid"><div class="h">${esc(d.title)}</div><div class="s">${first ? esc(first.t + ' · ' + first.h) : esc(d.place)}</div>${st ? `<div class="s">${ico('bed')} ${esc(st.n)}</div>` : ''}</div>
+      <div class="rt">${w ? (w.typ ? '' : `${w.e}<br>${w.hi}°`) : ''}</div></button>`;
+  }).join('')).join('') + `</div>`;
+}
+function todayExtras(d){
+  let h = '';
+  const st = stayOn(d.date), out = (T.data.stays || []).find(s => s.to === d.date);
+  if (out && out !== st) h += `<div class="alert">${ico('bed')}<div><b>Check out today:</b> ${esc(out.n)} · ref ${esc(out.r)}</div></div>`;
+  if (st) h += stayHTML(st, d.date);
+  const R = rates(), ex = LJ('exp:' + TI.id, []).filter(e => e.d === d.date), tot = ex.reduce((n,e) => n + e.a*(R[e.c]||1), 0);
+  h += `<div class="card spent"><button class="sp" data-sub="expenses"><div class="l">Spent today</div><div class="v">₹${Math.round(tot).toLocaleString('en-IN')}<small>${ex.length ? ` · ${ex.length} item${ex.length===1?'':'s'}` : ''}</small></div></button><button class="mini g" data-x="qexp">+ Expense</button></div>`;
+  return h;
+}
+
+/* live exchange rates (online only, cached 12 h); a rate typed in by hand wins until the next live update */
+async function ratesFetch(force){
+  const old = LJ('lrates', null);
+  if (!navigator.onLine || (!force && old && Date.now() - old.at < 12*3600e3)) return old;
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/INR'); if (!r.ok) return old;
+    const j = await r.json(); if (j.result !== 'success' || !j.rates) return old;
+    const out = {}; for (const c of ['USD','EUR','GBP','EGP','THB','AED','VND','CHF']) if (j.rates[c] > 0) out[c] = +(1/j.rates[c]).toFixed(c === 'VND' ? 5 : 3);
+    const v = {at:Date.now(), src:(j.time_last_update_unix || 0)*1000, r:out}; LS.set('lrates', JSON.stringify(v)); return v;
+  } catch(e){ return old; }
+}
+function rateSrc(){
+  const live = LJ('lrates', null);
+  return live ? `Live market rates, updated ${new Date(live.src || live.at).toLocaleString('en-GB', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})}.` : '';
+}
+
+/* expenses */
+const eid = e => e.id || ('t' + e.t);
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+function curDefault(key){ const d = todayDay(); return d && CCY[d.c] ? CCY[d.c] : (LS.get(key) || 'EGP'); }
+function expForm(){
+  const R = rates(), cur0 = curDefault('ecur'), cur = R[cur0] ? cur0 : 'INR', cat = LS.get('ecat') || 'Food', who = LS.get('ewho') || LS.get('me') || 'M';
+  return `<div class="card"><div class="amt"><input id="eAmt" inputmode="decimal" placeholder="0" aria-label="Amount"></div>
+    <div class="seg">${Object.keys(R).map(c=>`<button data-ecur="${c}" class="${c===cur?'on':''}">${c}</button>`).join('')}</div>
+    <div class="seg" style="margin-top:8px">${CATS.map(c=>`<button data-ecat="${c}" class="${c===cat?'on':''}">${c}</button>`).join('')}</div>
+    <div class="row2"><input id="eNote" class="field" placeholder="What for? (optional)"><div class="seg" style="flex-shrink:0"><button data-ewho="M" class="${who==='M'?'on':''}">M</button><button data-ewho="S" class="${who==='S'?'on':''}">S</button></div></div>
+    <button class="btn" data-x="addexp" style="margin-top:12px">Add expense</button></div>`;
+}
+function addExpense(){
+  const a = parseFloat(($('#eAmt').value || '').replace(/,/g,'')); if (!(a > 0)){ toast('Enter an amount'); return false; }
+  const on = sel => { const b = document.querySelector(sel + '.on'); return b ? b : null; };
+  const c = (on('[data-ecur]') || {}).dataset?.ecur || curDefault('ecur'), k = (on('[data-ecat]') || {}).dataset?.ecat || 'Food', w = (on('[data-ewho]') || {}).dataset?.ewho || 'M';
+  const ex = LJ('exp:' + TI.id, []), now = new Date();
+  ex.push({id:newId(), d:ymd(now), t:now.getTime(), a, c, k, w, n:$('#eNote').value.trim()});
+  ex.sort((a,b) => (a.t||0) - (b.t||0) || (eid(a) < eid(b) ? -1 : 1));
+  LS.set('exp:' + TI.id, JSON.stringify(ex)); return true;
+}
+function stamp(key){ const mt = LJ('mt:' + TI.id, {}); mt[key] = Date.now(); LS.set('mt:' + TI.id, JSON.stringify(mt)); }
+
+/* two-phone sync: an encrypted file (or text) with expenses, ticks and day notes for every trip */
+function syncData(){
+  const t = {};
+  for (const tr of IDX.trips){ const id = tr.id, r = {exp:LJ('exp:'+id, []), expdel:LJ('expdel:'+id, []), prep:LJ('prep:'+id, {}), pack:LJ('pack:'+id, {}), jr:LJ('jr:'+id, {}), mt:LJ('mt:'+id, {})};
+    if (r.exp.length || r.expdel.length || Object.keys(r.prep).length || Object.keys(r.pack).length || Object.keys(r.jr).length || Object.keys(r.mt).length) t[id] = r; }
+  return {v:1, at:Date.now(), me:LS.get('me') || '', t};
+}
+async function syncPack(){
+  const iv = crypto.getRandomValues(new Uint8Array(12)), ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, K, new TextEncoder().encode(JSON.stringify(syncData())));
+  const b = new Uint8Array(12 + ct.byteLength); b.set(iv); b.set(new Uint8Array(ct), 12); return 'OURTRIPS1:' + toB64(b);
+}
+async function syncUnpack(txt){
+  const m = String(txt || '').match(/OURTRIPS1:([A-Za-z0-9+/=\s]+)/); if (!m) throw new Error('nocode');
+  const b = b64(m[1].replace(/\s/g, '')), pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:b.slice(0,12)}, K, b.slice(12));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+function mergeSync(inc){
+  let nExp = 0, nTick = 0, nNote = 0, nDel = 0;
+  for (const id of Object.keys(inc.t || {})){
+    if (!IDX.trips.some(t => t.id === id)) continue;
+    const r = inc.t[id];
+    const del = new Set([...LJ('expdel:'+id, []), ...(r.expdel || [])]), mine = LJ('exp:'+id, []), have = new Set(mine.map(eid));
+    for (const e of (r.exp || [])) if (!have.has(eid(e)) && !del.has(eid(e))){ mine.push(e); have.add(eid(e)); nExp++; }
+    const kept = mine.filter(e => !del.has(eid(e))); nDel += mine.length - kept.length;
+    LS.set('exp:'+id, JSON.stringify(kept.sort((a,b) => (a.t||0) - (b.t||0) || (eid(a) < eid(b) ? -1 : 1))));
+    LS.set('expdel:'+id, JSON.stringify([...del]));
+    const mt = LJ('mt:'+id, {}), imt = r.mt || {};
+    for (const kind of ['prep','pack']){
+      const st = LJ(kind + ':' + id, {}), ist = r[kind] || {};
+      const keys = new Set([...Object.keys(st), ...Object.keys(ist), ...Object.keys(imt).filter(k => k.startsWith(kind + ':')).map(k => k.slice(kind.length + 1))]);
+      for (const k of keys){
+        const mk = kind + ':' + k, a = mt[mk] || 0, b = imt[mk] || 0, theirs = !!ist[k], ours = !!st[k];
+        if (theirs === ours){ if (b > a) mt[mk] = b; continue; }
+        if (b > a || (b === a && theirs)){ if (theirs) st[k] = 1; else delete st[k]; if (b) mt[mk] = b; nTick++; }
+      }
+      LS.set(kind + ':' + id, JSON.stringify(st));
+    }
+    LS.set('mt:'+id, JSON.stringify(mt));
+    const jr = LJ('jr:'+id, {});
+    for (const [d, txt] of Object.entries(r.jr || {})){
+      const a = (jr[d] || '').trim(), b = (txt || '').trim();
+      if (!b || a === b || a.includes(b)) continue;
+      jr[d] = !a || b.includes(a) ? b : a + '\n\n' + b; nNote++;
+    }
+    LS.set('jr:'+id, JSON.stringify(jr));
+  }
+  LS.set('lastsync', JSON.stringify({at:Date.now(), nExp, nTick, nNote, nDel}));
+  return {nExp, nTick, nNote, nDel};
+}
+async function syncIn(txt){
+  try {
+    const r = mergeSync(await syncUnpack(txt)), parts = [];
+    if (r.nExp) parts.push(`${r.nExp} expense${r.nExp===1?'':'s'}`); if (r.nTick) parts.push(`${r.nTick} tick${r.nTick===1?'':'s'}`); if (r.nNote) parts.push(`${r.nNote} note${r.nNote===1?'':'s'}`); if (r.nDel) parts.push(`removed ${r.nDel} expense${r.nDel===1?'':'s'}`);
+    toast(parts.length ? 'Merged ' + parts.join(', ') : 'Already up to date'); render(true);
+  } catch(e){ toast(e.message === 'nocode' ? 'That is not a sync file' : 'Could not open — different passcode?'); }
+}
+async function syncSend(){
+  const txt = await syncPack(), d = new Date(), name = `our-trips-sync-${ymd(d)}-${pad(d.getHours())}${pad(d.getMinutes())}.txt`;
+  try { const file = new File([txt], name, {type:'text/plain'}); if (navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:'Our trips sync'}); return; } } catch(e){ if (e.name === 'AbortError') return; }
+  try { if (navigator.share){ await navigator.share({text:txt}); return; } } catch(e){ if (e.name === 'AbortError') return; }
+  copy(txt, 'sync text — paste it on the other phone');
+}
+function syncHTML(){
+  const me = LS.get('me') || '', last = LJ('lastsync', null);
+  return `<div class="card"><p style="margin:0 0 12px">Expenses, ticks and day notes are saved on each phone. Send them across to keep both phones the same. The file is locked with your passcode.</p>
+    <div class="muted" style="font-size:13.5px;margin-bottom:8px">This phone is</div>
+    <div class="seg"><button data-me="M" class="${me==='M'?'on':''}">Manan's</button><button data-me="S" class="${me==='S'?'on':''}">Saanika's</button></div></div>
+  <div class="sec">1 · Send</div><div class="card"><button class="btn" data-x="syncsend">${ico('sync','')}Send to the other phone</button><div class="muted" style="font-size:13.5px;margin-top:10px">AirDrop or WhatsApp the file. Save it to Files on the other phone.</div></div>
+  <div class="sec">2 · On the other phone</div><div class="card"><label class="btn ghost" for="syncFile">Open the sync file</label><input type="file" id="syncFile" accept=".txt,text/plain" style="display:none">
+    <div class="muted" style="font-size:13.5px;margin:14px 0 8px">Or paste the sync text</div><textarea id="syncTxt" class="field" rows="3" placeholder="OURTRIPS1:…" style="resize:vertical"></textarea><button class="mini n" data-x="syncpaste">Merge pasted text</button></div>
+  <div class="faint" style="font-size:12.5px;margin:2px 6px">Merging adds what the other phone has and keeps what's here. Send back the other way so both match.${last ? ` Last merge ${new Date(last.at).toLocaleString('en-GB', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})}.` : ''}</div>`;
+}
+
+/* search everything in the open trip */
+function searchAll(q){
+  const terms = q.trim().toLowerCase().split(/\s+/).filter(Boolean); if (!terms.length || q.trim().length < 2) return [];
+  const hit = (...a) => { const s = a.filter(Boolean).join(' ').toLowerCase(); return terms.every(t => s.includes(t)); }, R = [];
+  if (TI.kind === 'full'){
+    const D = T.data;
+    (T.files || []).forEach(f => { if (hit(f.h, f.s, f.g, f.ic === 'plane' ? 'ticket flight pnr boarding' : '', f.ic === 'bed' ? 'hotel booking confirmation' : '', f.ic === 'id' ? 'passport visa id' : '')) R.push({g:'Wallet', h:f.h, s:f.s, a:`data-doc="${f.id}"`}); });
+    D.bookings.forEach(b => { const code = /^[A-Za-z0-9\-\/]{4,}$/.test(b.r); if (hit(b.g, b.h, b.w, b.r, b.x, 'booking reference ref confirmation', b.g === 'Flights' ? 'pnr flight ticket' : '', b.g === 'Hotels' ? 'hotel stay room' : '')) R.push({g:'Bookings', h:b.h, s:`${b.w} · ${b.r}`, a:code ? `data-copy="${esc(b.r)}"` : (b.d ? `data-doc="${b.d}"` : 'data-v="wallet"'), tag:code ? 'Tap to copy ' + b.r : ''}); });
+    D.days.forEach(d => d.items.forEach(it => { if (hit(fmtD(d.date), d.title, d.place, it.h, it.s, it.t)) R.push({g:'Plan', h:it.h, s:`${fmtD(d.date)}${isTime(it.t) ? ' · ' + it.t : ''}${it.s ? ' · ' + it.s : ''}`, a:`data-goday="${d.date}"`}); }));
+    (T.places ? T.places.places : []).forEach(p => { if (hit(p.n, p.s)) R.push({g:'Places', h:p.n, s:p.s || '', a:`data-area="${p.a}"`}); });
+    (T.guides || []).forEach(g => { const txt = g._t || (g._t = g.html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ')); if (hit(g.h, g.s, txt)){ const i = txt.toLowerCase().indexOf(terms[0]); R.push({g:'Guides', h:g.h, s:i >= 0 ? '…' + txt.slice(Math.max(0, i - 50), i + 90) + '…' : g.s, a:`data-guide="${g.id}"`}); } });
+    (T.phrases || []).forEach((grp, gi) => grp.items.forEach((p, i) => { if (hit(...p)) R.push({g:'Phrases', h:p[0], s:p[1], a:`data-ph="${gi}:${i}"`}); }));
+    D.driver.forEach((d, i) => { if (hit(d.n, d.en)) R.push({g:'Driver cards', h:d.n, s:d.en || '', a:`data-drv="${i}"`}); });
+    [...D.emergency, ...D.contacts].forEach(c => { if (hit(c.n, c.r, c.p, c.e, c.x)) R.push({g:'Contacts', h:c.n, s:[c.r, c.p, c.e].filter(Boolean).join(' · '), href:c.p ? 'tel:' + c.p.replace(/[^\d+]/g, '') : '', a:'data-sub="sos"', tag:c.p ? 'Tap to call' : ''}); });
+    (D.prep || []).forEach(p => { if (hit(p.h, p.s)) R.push({g:'Checklist', h:p.h, s:`${fmtD(p.d)}${p.s ? ' · ' + p.s : ''}`, a:'data-sub="checklist"'}); });
+    (D.carry || []).forEach(c => { if (hit(c)) R.push({g:'Carry', h:c, s:'', a:'data-sub=""'}); });
+  } else if (T.html){
+    const txt = T.html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '); if (hit(txt)){ const i = txt.toLowerCase().indexOf(terms[0]); R.push({g:'Trip notes', h:TI.t, s:'…' + txt.slice(Math.max(0, i - 50), i + 90) + '…', a:'data-v="today"'}); }
+  }
+  IDX.trips.forEach(t => { if (t.id !== TI.id && hit(t.t, t.s)) R.push({g:'Other trips', h:t.t, s:t.s, a:`data-trip="${t.id}"`}); });
+  return R;
+}
+function hl(text, q){
+  let h = esc(text);
+  q.trim().split(/\s+/).filter(t => t.length > 1).forEach(t => { h = h.replace(new RegExp('(' + esc(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'); });
+  return h;
+}
+const QHINT = '<div class="faint" style="font-size:13.5px;margin:14px 4px">Search tickets, booking refs, the plan, places, guides, phrases and contacts. Try “Hilton”, “PNR”, “GEM” or “toilet”.</div>';
+function renderSearch(q){
+  const el = $('#qres'); if (!el) return;
+  if (q.trim().length < 2){ el.innerHTML = QHINT; return; }
+  const R = searchAll(q);
+  if (!R.length){ el.innerHTML = `<div class="muted" style="margin:16px 4px">Nothing for “${esc(q)}”.</div>`; return; }
+  const groups = []; R.forEach(r => { let g = groups.find(x => x.g === r.g); if (!g){ g = {g:r.g, l:[]}; groups.push(g); } g.l.push(r); });
+  el.innerHTML = groups.map(g => `<div class="sec" style="margin:16px 4px 2px">${esc(g.g)} <span>${g.l.length > 8 ? '8 of ' + g.l.length : g.l.length}</span></div>` + g.l.slice(0, 8).map(r => {
+    const inner = `<div class="h">${hl(r.h, q)}</div>${r.s ? `<div class="s">${hl(r.s, q)}</div>` : ''}${r.tag ? `<span class="tg">${esc(r.tag)}</span>` : ''}`;
+    return r.href ? `<a class="sr" href="${r.href}">${inner}</a>` : `<button class="sr" ${r.a}>${inner}</button>`;
+  }).join('')).join('');
+}
+function openSearch(){
+  sheet(`<div class="qwrap">${ico('search')}<input id="q" class="field" type="search" placeholder="Search everything" autocomplete="off" autocorrect="off" enterkeyhint="search"></div><div id="qres">${QHINT}</div>`);
+  const q = $('#q'); if (q) q.focus();
+}
+let WQ = '';
+function wfilter(){
+  const inp = $('#wq'); if (!inp) return;
+  WQ = inp.value; const terms = WQ.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  let any = 0;
+  document.querySelectorAll('#view [data-q]').forEach(el => { const ok = terms.every(t => el.dataset.q.includes(t)); el.classList.toggle('hidden', !ok); if (ok) any++; });
+  document.querySelectorAll('#view .wg').forEach(g => g.classList.toggle('hidden', !g.querySelector('[data-q]:not(.hidden)')));
+  const bk = $('#wbk'); if (bk) bk.classList.toggle('hidden', !document.querySelector('#view .bk:not(.hidden)'));
+  $('#wnone').classList.toggle('hidden', !!any || !terms.length); $('#wqx').classList.toggle('hidden', !WQ);
+  const miss = $('#wmiss'); if (miss) miss.classList.toggle('hidden', !!terms.length);
+}
+
 /* ---------- views ---------- */
 function renderToday(){
   if (TI.kind !== 'full') return notesTrip();
@@ -551,7 +943,7 @@ function renderToday(){
   let h = '';
   if (today < D.trip.start){
     const n = daysBetween(today, D.trip.start);
-    h += `<div class="hero">${SCENE[TI.sc]}<div class="k">${esc(D.trip.kicker || TI.s)}</div><div class="big">${n} day${n===1?'':'s'}</div><div class="m">to go · ${esc(fmtD(D.trip.start))}${D.trip.first?' · '+esc(D.trip.first):''}</div></div>`;
+    h += `<div class="hero">${SCENE[TI.sc]}<div class="k">${esc(D.trip.kicker || TI.s)}</div><div class="big">${n} day${n===1?'':'s'}</div><div class="m">to go · ${esc(fmtD(D.trip.start))}${D.trip.first?' · '+esc(D.trip.first):''}</div></div>` + routeHTML();
     h += `<div class="sec">Before we go <span>${D.prep.filter(p=>!prepState()[p.id]).length} left</span></div><div class="card">${prepHTML(4)}</div>`;
     if (T.packing){ const st = LJ('pack:' + TI.id, {}), tot = T.packing.groups.reduce((n,g)=>n+g.items.length,0), done = Object.keys(st).length;
       h += `<button class="card" data-sub="packing" style="display:block;width:100%;text-align:left"><div style="display:flex;justify-content:space-between"><b>Packing</b><span class="muted">${done}/${tot}</span></div><div class="pbar"><i style="width:${tot?done/tot*100:0}%"></i></div></button>`; }
@@ -562,9 +954,10 @@ function renderToday(){
   } else if (di >= 0){
     const d = D.days[di], nowM = now.getHours()*60 + now.getMinutes(), nx = d.items.find(it => isTime(it.t) && mins(it.t) >= nowM - 20);
     h += `<div class="hero t-${d.c}">${SCENE[d.c==='th'?'wave':d.c==='in'?'arch':'pyramid']}<div class="k">Day ${di+1} of ${D.days.length} · ${esc(COUNTRY[d.c] || '')}</div><div class="t">${esc(d.title)}</div><div class="m">${esc(d.place)}</div></div>`;
-    h += infoStrip(d);
-    if (nx){ const acts = docBtn(nx.d) + (d.g||[]).map(guideBtn).join('');
+    h += routeHTML() + infoStrip(d);
+    if (nx){ const acts = docBtn(nx.d) + flBtns(nx) + (d.g||[]).map(guideBtn).join('');
       h += `<div class="now"><div class="lbl"><span>Next · ${esc(nx.t)}</span><span>${esc(relTime(nx.t))}</span></div><div class="h">${esc(nx.h)}</div>${nx.s?`<div class="s">${esc(nx.s)}</div>`:''}${acts?`<div class="acts">${acts}</div>`:''}</div>`; }
+    h += todayExtras(d);
     const tm = D.days[di+1], early = tm && tm.items.find(it => isTime(it.t) && mins(it.t) < 7*60);
     if (early && now.getHours() >= 15) h += `<div class="alert">${ico('sun')}<div><b>Early start tomorrow:</b> ${esc(early.t)} · ${esc(early.h)}. Set an alarm.</div></div>`;
     h += `<div class="sec">Today <span>${esc(fmtD(d.date))} · ${esc(d.tz)}</span></div>` + timeline(d.items, {live:true});
@@ -580,13 +973,14 @@ function renderToday(){
 function renderPlan(){
   if (TI.kind !== 'full') return notesTrip();
   const D = T.data, today = ymd(new Date());
-  if (!sel || !D.days.some(d => d.date === sel)) sel = D.days.some(d => d.date === today) ? today : (LS.get('sel:' + TI.id) || D.days[0].date);
-  if (!D.days.some(d => d.date === sel)) sel = D.days[0].date;
+  if (sel !== 'all' && (!sel || !D.days.some(d => d.date === sel))) sel = D.days.some(d => d.date === today) ? today : (LS.get('sel:' + TI.id) || D.days[0].date);
+  if (sel !== 'all' && !D.days.some(d => d.date === sel)) sel = D.days[0].date;
   const i = D.days.findIndex(d => d.date === sel), d = D.days[i];
-  let h = `<div class="strip" id="strip">${D.days.map(x => { const dt = parseD(x.date); return `<button class="dc t-${x.c} ${x.date===sel?'on':''} ${x.date===today?'td':''}" data-sel="${x.date}"><div class="w">${WK[dt.getDay()]}</div><div class="n">${dt.getDate()}</div></button>`; }).join('')}</div>`;
+  let h = `<div class="strip" id="strip"><button class="dc all ${sel==='all'?'on':''}" data-sel="all"><div class="w">All</div><div class="n">☰</div></button>${D.days.map(x => { const dt = parseD(x.date); return `<button class="dc t-${x.c} ${x.date===sel?'on':''} ${x.date===today?'td':''}" data-sel="${x.date}"><div class="w">${WK[dt.getDay()]}</div><div class="n">${dt.getDate()}</div></button>`; }).join('')}</div>`;
+  if (sel === 'all') return h + overviewHTML();
   h += `<div class="hero dayhero t-${d.c}">${SCENE[d.c==='th'?'wave':d.c==='in'?'arch':'pyramid']}<div class="k">Day ${i+1} · ${esc(fmtD(d.date))}</div><div class="t">${esc(d.title)}</div><div class="m">${esc(d.place)} · ${esc(d.tz)}</div></div>`;
   const c = cityOf(d.city);
-  if (c){ const s = sunTimes(d.date, c.ll[0], c.ll[1]); h += `<div class="acts" style="margin:-4px 0 12px"><span class="mini n">${ico('sun')}Sunrise ${tfmt(s.rise,c.tz)} · sunset ${tfmt(s.set,c.tz)}</span>${(d.g||[]).map(guideBtn).join('')}${d.a?`<button class="mini n" data-area="${d.a}">${ico('pin')}Map</button>`:''}</div>`; }
+  if (c){ const s = sunTimes(d.date, c.ll[0], c.ll[1]); h += `<div class="acts" style="margin:-4px 0 12px"><span class="mini n">${ico('sun')}Sunrise ${tfmt(s.rise,c.tz)} · sunset ${tfmt(s.set,c.tz)}</span>${wxChip(d)}${stayChip(d.date)}${(d.g||[]).map(guideBtn).join('')}${d.a?`<button class="mini n" data-area="${d.a}">${ico('pin')}Map</button>`:''}</div>`; }
   h += `<div id="swipe">${timeline(d.items, {live: d.date === today})}</div>`;
   h += `<div class="sec">Notes & memories <span>only on this phone</span></div><textarea class="jr" data-jr="${d.date}" placeholder="What happened today? What do you want to remember?">${esc(LJ('jr:' + TI.id, {})[d.date] || '')}</textarea>`;
   h += `<div class="navrow"><button data-sel="${D.days[i-1]?.date||''}" ${i?'':'style="visibility:hidden"'}>‹ ${i?esc(fmtD(D.days[i-1].date)):''}</button><button data-sel="${D.days[i+1]?.date||''}" ${D.days[i+1]?'':'style="visibility:hidden"'}>${D.days[i+1]?esc(fmtD(D.days[i+1].date)):''} ›</button></div>`;
@@ -595,17 +989,18 @@ function renderPlan(){
 
 function renderWallet(){
   if (TI.kind !== 'full' || !T.files) return `<div class="card empty"><b>No tickets saved for this trip</b>Documents live with full trips. Open the trip notes on Today.</div>`;
-  let h = '';
+  let h = `<div class="wsearch">${ico('search')}<input id="wq" type="search" placeholder="Search tickets, bookings, refs" autocomplete="off" autocorrect="off" enterkeyhint="search" value="${esc(WQ)}"><button id="wqx" class="${WQ?'':'hidden'}" aria-label="Clear search">✕</button></div>
+    <div id="wnone" class="card note hidden">Nothing matches. Try the search button at the top for the plan, places and guides.</div>`;
   const groups = [];
   T.files.forEach(f => { let g = groups.find(x => x.g === f.g); if (!g){ g = {g:f.g, l:[]}; groups.push(g); } g.l.push(f); });
-  h += groups.map((g,i) => `<div class="sec" ${i?'':'style="margin-top:4px"'}>${esc(g.g)}</div><div class="grid">${g.l.map(tile).join('')}</div>`).join('');
-  if (T.data.missing) h += `<div class="card note" style="margin-top:12px">${esc(T.data.missing)}</div>`;
+  h += groups.map((g,i) => `<div class="wg"><div class="sec" ${i?'':'style="margin-top:14px"'}>${esc(g.g)}</div><div class="grid">${g.l.map(tile).join('')}</div></div>`).join('');
+  if (T.data.missing) h += `<div class="card note" id="wmiss" style="margin-top:12px">${esc(T.data.missing)}</div>`;
   const bg = [];
   T.data.bookings.forEach(b => { let g = bg.find(x => x.g === b.g); if (!g){ g = {g:b.g, l:[]}; bg.push(g); } g.l.push(b); });
-  h += `<div class="sec" style="margin-top:30px">All bookings <span>tap a reference to copy</span></div>`;
-  h += bg.map(g => `<div class="sec" style="margin-top:14px">${esc(g.g)}</div>` + g.l.map(b => `
-    <div class="card bk"><div class="row"><div><div class="h">${esc(b.h)}</div><div class="w">${esc(b.w)}</div></div>
-    <button class="ref" data-copy="${esc(b.r)}">${esc(b.r)}</button></div><div class="x">${esc(b.x)}</div>${b.d?`<div class="acts">${docBtn(b.d)}</div>`:''}</div>`).join('')).join('');
+  h += `<div class="sec" id="wbk" style="margin-top:30px">All bookings <span>tap a reference to copy</span></div>`;
+  h += bg.map(g => `<div class="wg"><div class="sec" style="margin-top:14px">${esc(g.g)}</div>` + g.l.map(b => `
+    <div class="card bk" data-q="${esc([b.g, b.h, b.w, b.r, b.x].join(' ').toLowerCase())}"><div class="row"><div><div class="h">${esc(b.h)}</div><div class="w">${esc(b.w)}</div></div>
+    <button class="ref" data-copy="${esc(b.r)}">${esc(b.r)}</button></div><div class="x">${esc(b.x)}</div>${b.d?`<div class="acts">${docBtn(b.d)}</div>`:''}</div>`).join('') + `</div>`).join('');
   return h;
 }
 
@@ -689,14 +1084,23 @@ function renderWeather(){
 }
 
 /* more */
-function rates(){ const base = (T && T.data && T.data.money) ? T.data.money.rates : IDX.rates; return Object.assign({}, base, LJ('rates', {})); }
+function rates(){
+  const base = (T && T.data && T.data.money) ? T.data.money.rates : IDX.rates, R = Object.assign({}, base), live = LJ('lrates', null), man = LJ('rates2', {}), old = LJ('rates', {});
+  for (const c of Object.keys(R)){
+    if (c === 'INR') continue;
+    if (old[c] && !live) R[c] = old[c];
+    if (live && live.r[c]) R[c] = live.r[c];
+    if (man[c] && (!live || man[c].at > live.at)) R[c] = man[c].v;
+  }
+  return R;
+}
 function moneyHTML(){
-  const R = rates(), cur = LS.get('cur') || 'EGP', amt = LS.get('amt') || '1000', M = T.data && T.data.money;
+  const R = rates(), cur0 = LS.get('cur') || curDefault('cur'), cur = R[cur0] ? cur0 : 'INR', amt = LS.get('amt') || '1000', M = T.data && T.data.money, src = rateSrc();
   let h = `<div class="card"><div class="amt"><input id="amt" inputmode="decimal" value="${esc(amt)}" aria-label="Amount"></div>
     <div class="seg">${Object.keys(R).map(c=>`<button data-cur="${c}" class="${c===cur?'on':''}">${c}</button>`).join('')}</div>
     <div class="outs" id="outs"></div>
-    <div class="rates">${Object.keys(R).filter(c=>c!=='INR').map(c=>`<button data-rate="${c}">1 ${c} = ₹${R[c]}</button>`).join('')}</div>
-    <div class="faint" style="font-size:12px;margin-top:8px">${M?esc(M.ratesNote)+' · ':''}tap a rate to edit</div></div>`;
+    <div class="rates">${Object.keys(R).filter(c=>c!=='INR').map(c=>`<button data-rate="${c}">1 ${c} = ₹${R[c] >= 10 ? R[c].toFixed(2) : R[c] >= 0.1 ? R[c].toFixed(3) : R[c]}</button>`).join('')}</div>
+    <div class="faint" style="font-size:12px;margin-top:8px">${src ? esc(src) + ' Tap a rate to change it.' : M ? esc(M.ratesNote) : 'Tap a rate to change it.'}</div>${src && M ? `<div class="faint" style="font-size:12px;margin-top:4px">Saved before the trip: ${esc(M.ratesNote.replace(/\s*Tap a rate.*$/i, ''))}</div>` : ''}</div>`;
   if (M) h += `<div class="sec">Tips · modest</div><div class="card"><table class="tips">${M.tips.map(t=>`<tr><td>${esc(t[0])}</td><td>${esc(t[1])}</td></tr>`).join('')}</table></div>
     <div class="sec">Cash</div><div class="card"><ul class="clean">${M.cash.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
     <div class="sec">Cards</div><div class="card"><ul class="clean">${M.cards.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;
@@ -704,21 +1108,17 @@ function moneyHTML(){
 }
 function calc(){
   const el = $('#amt'); if (!el) return;
-  const R = rates(), c = LS.get('cur') || 'EGP', a = parseFloat((el.value||'0').replace(/,/g,'')) || 0;
+  const R = rates(), c0 = LS.get('cur') || curDefault('cur'), c = R[c0] ? c0 : 'INR', a = parseFloat((el.value||'0').replace(/,/g,'')) || 0;
   LS.set('amt', el.value);
   const inr = a * (R[c] || 1), fmt = (v,cc) => (cc==='INR'?'₹ ':'') + v.toLocaleString('en-IN', {maximumFractionDigits: v < 100 ? 2 : 0});
   $('#outs').innerHTML = Object.keys(R).filter(x => x !== c).map(x => `<div class="out"><div class="c">${x}</div><div class="v">${fmt(inr/R[x], x)}</div></div>`).join('');
 }
 const CATS = ['Food','Transport','Tickets','Tips','Shopping','Hotel','Other'];
 function expHTML(){
-  const R = rates(), ex = LJ('exp:' + TI.id, []), cur = LS.get('ecur') || 'EGP', cat = LS.get('ecat') || 'Food', who = LS.get('ewho') || 'M';
+  const R = rates(), ex = LJ('exp:' + TI.id, []);
   const inr = e => e.a * (R[e.c] || 1), tot = ex.reduce((n,e) => n + inr(e), 0);
-  let h = `<div class="card"><div class="amt"><input id="eAmt" inputmode="decimal" placeholder="0" aria-label="Amount"></div>
-    <div class="seg">${Object.keys(R).map(c=>`<button data-ecur="${c}" class="${c===cur?'on':''}">${c}</button>`).join('')}</div>
-    <div class="seg" style="margin-top:8px">${CATS.map(c=>`<button data-ecat="${c}" class="${c===cat?'on':''}">${c}</button>`).join('')}</div>
-    <div class="row2"><input id="eNote" class="field" placeholder="What for? (optional)"><div class="seg" style="flex-shrink:0"><button data-ewho="M" class="${who==='M'?'on':''}">M</button><button data-ewho="S" class="${who==='S'?'on':''}">S</button></div></div>
-    <button class="btn" data-x="addexp" style="margin-top:12px">Add expense</button></div>`;
-  if (!ex.length) return h + `<div class="card note">Nothing logged yet. Expenses stay on this phone; use Copy as CSV to share them.</div>`;
+  let h = expForm();
+  if (!ex.length) return h + `<div class="card note">Nothing logged yet. Use Sync phones (in More) to put both phones' expenses together.</div>`;
   const byCat = CATS.map(c => [c, ex.filter(e => e.k === c).reduce((n,e) => n + inr(e), 0)]).filter(x => x[1] > 0).sort((a,b) => b[1]-a[1]);
   const max = byCat[0][1];
   h += `<div class="sec">Total <span>₹${Math.round(tot).toLocaleString('en-IN')} · ${ex.length} items</span></div><div class="card">${byCat.map(([c,v]) => `<div style="margin:6px 0"><div style="display:flex;justify-content:space-between;font-size:14px"><span>${c}</span><b>₹${Math.round(v).toLocaleString('en-IN')}</b></div><div class="pbar"><i style="width:${v/max*100}%"></i></div></div>`).join('')}
@@ -750,12 +1150,12 @@ function renderMore(){
   const items = [
     ['money','money','Money','Converter, tips, cash'],
     full && ['expenses','list','Expenses','Log spends, see totals'],
+    ['sync','sync','Sync phones','Expenses, ticks, notes'],
     full && T.packing && ['packing','bag','Packing','Tick off as you pack'],
     full && ['checklist','shield','Checklist','Before we go'],
     full && ['drivers','car','Driver cards','Arabic, full screen'],
     full && ['sos','sos','SOS & contacts','Emergency numbers'],
-    ['trips','globe','All trips','Switch trip'],
-    ['about','lock','App & privacy','Offline, lock, update']
+    ['about','sun','Look & app','Light or dark, offline, lock']
   ].filter(Boolean);
   if (!sub) return `<div class="menu">${items.map(([k,i,b,s]) => `<button data-sub="${k}"><div class="ic">${ico(i)}</div><div><b>${b}</b><br><small>${s}</small></div></button>`).join('')}</div>` + (full && T.data.carry ? `<div class="sec">Carry</div><div class="card"><ul class="clean">${T.data.carry.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>` : '');
   const title = (items.find(x => x[0] === sub) || [0,0,''])[2];
@@ -766,8 +1166,11 @@ function renderMore(){
   if (sub === 'checklist') h += `<div class="card">${prepHTML(0)}</div>`;
   if (sub === 'drivers') h += driversHTML();
   if (sub === 'sos') h += sosHTML();
+  if (sub === 'sync') h += syncHTML();
   if (sub === 'trips') h += tripsHTML();
-  if (sub === 'about') h += `<div class="card"><p style="margin:0 0 10px">Everything in this app is locked with your passcode (AES-256). It works offline once it says <b>Offline-ready</b>.</p><p class="muted" style="margin:0 0 10px;font-size:14px">Ticks, notes and expenses are saved only on this phone. They don't sync to the other phone.</p><p class="muted" style="margin:0;font-size:14px">Saved for offline: ${OFF.done.size}/${OFF.total} files · version ${esc(IDX.v)}</p></div>
+  if (sub === 'about'){ const tm = LS.get('theme') || 'auto';
+    h += `<div class="sec" style="margin-top:4px">Appearance</div><div class="card"><div class="seg">${[['auto','Auto'],['light','Light'],['dark','Dark']].map(([k,l]) => `<button data-theme="${k}" class="${k===tm?'on':''}">${l}</button>`).join('')}</div><div class="faint" style="font-size:12.5px;margin-top:8px">Auto follows the phone's light or dark setting.</div></div><div class="sec">Privacy & offline</div>`; }
+  if (sub === 'about') h += `<div class="card"><p style="margin:0 0 10px">Everything in this app is locked with your passcode (AES-256). It works offline once it says <b>Offline-ready</b>.</p><p class="muted" style="margin:0 0 10px;font-size:14px">Ticks, notes and expenses are saved on this phone. Use <b>Sync phones</b> to share them with the other phone.</p><p class="muted" style="margin:0;font-size:14px">Saved for offline: ${OFF.done.size}/${OFF.total} files · version ${esc(IDX.v)}</p></div>
     <div class="acts"><button class="mini n" data-x="refresh">Check for update</button><button class="mini n" data-x="lock">Lock app</button></div>`;
   return h;
 }
@@ -784,8 +1187,13 @@ function render(keepScroll){
   const now = new Date();
   $('#hdrSub').textContent = view === 'today' ? `${WK[now.getDay()]}, ${now.getDate()} ${MO[now.getMonth()]} · ${pad(now.getHours())}:${pad(now.getMinutes())}` : TITLES[view];
   $('#hdrTitle').textContent = TI.t;
-  const y = window.scrollY;
-  $('#view').innerHTML = ({today:renderToday, plan:renderPlan, wallet:renderWallet, explore:renderExplore, more:renderMore})[view]();
+  const y = window.scrollY, V = $('#view');
+  V.innerHTML = ({today:renderToday, plan:renderPlan, wallet:renderWallet, explore:renderExplore, more:renderMore})[view]();
+  V.classList.remove('enter', 'dl', 'dr');
+  if (ANIM || !keepScroll){ void V.offsetWidth; V.classList.add(ANIM || 'enter'); }
+  ANIM = null;
+  const ti = ['today','plan','wallet','explore','more'].indexOf(view), ind = document.querySelector('#tabs .ind'); if (ind) ind.style.transform = `translateX(${Math.max(0, ti)*100}%)`;
+  if (view === 'wallet' && WQ) wfilter();
   hydrateImgs($('#view'));
   if (view === 'more' && sub === 'money') calc();
   if (view === 'plan'){ const on = document.querySelector('.dc.on'); if (on) on.scrollIntoView({inline:'center', block:'nearest'}); }
@@ -799,8 +1207,8 @@ async function hydrateImgs(root){
 }
 
 /* ---------- overlays ---------- */
-function openOv(id){ $('#' + id).classList.remove('hidden'); document.body.style.overflow = 'hidden'; try { history.pushState({ov:id}, ''); } catch(e){} }
-function closeOv(){ ['vw','rd'].forEach(id => $('#' + id).classList.add('hidden')); $('#vwSc').innerHTML = ''; document.body.style.overflow = ''; }
+function openOv(id){ $('#' + id).classList.remove('closing', 'hidden'); document.body.style.overflow = 'hidden'; try { history.pushState({ov:id}, ''); } catch(e){} }
+function closeOv(){ ['vw','rd'].forEach(id => { const o = $('#' + id); if (o.classList.contains('hidden')) return; o.classList.add('closing'); setTimeout(() => { if (o.classList.contains('closing')){ o.classList.add('hidden'); o.classList.remove('closing'); if (id === 'vw') $('#vwSc').innerHTML = ''; } }, 190); }); document.body.style.overflow = ''; }
 window.addEventListener('popstate', () => { closeOv(); closeSheet(); });
 async function openDoc(id){
   const f = fileById(id); if (!f) return;
@@ -823,20 +1231,36 @@ function openGuide(id){
   sc._hs = hs;
   openOv('rd'); hydrateImgs(sc);
 }
-function sheet(html){ $('#sheetIn').innerHTML = '<div class="grab"></div>' + html; $('#sheet').classList.remove('hidden'); try { history.pushState({sheet:1}, ''); } catch(e){} }
-function closeSheet(){ $('#sheet').classList.add('hidden'); }
+function sheet(html){ $('#sheetIn').innerHTML = '<div class="grab"></div>' + html; $('#sheet').classList.remove('closing', 'hidden'); try { history.pushState({sheet:1}, ''); } catch(e){} }
+function closeSheet(){ const sh = $('#sheet'); if (sh.classList.contains('hidden') || sh.classList.contains('closing')) return; sh.classList.add('closing'); setTimeout(() => { if (sh.classList.contains('closing')){ sh.classList.add('hidden'); sh.classList.remove('closing'); } }, 210); }
 function bigText(a, b, c, ltr, ltr2){ $('#fAr').textContent = a; $('#fAr').classList.toggle('ltr', !!ltr); $('#fAr2').textContent = b || ''; $('#fAr2').classList.toggle('ltr', !!ltr2); $('#fEn').textContent = c || ''; $('#full').classList.remove('hidden'); }
+function applyTheme(m){
+  m = m || LS.get('theme') || 'auto';
+  const l = m === 'light' || (m === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches);
+  document.documentElement.classList.toggle('light', l);
+  const mt = document.querySelector('meta[name=theme-color]'); if (mt) mt.setAttribute('content', l ? '#f6f3ee' : '#090b10');
+}
+try { matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => applyTheme()); } catch(e){}
+const sheetOpen = () => !$('#sheet').classList.contains('hidden') && !$('#sheet').classList.contains('closing');
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
   if (e.target.id === 'sheet'){ history.back(); return; }
-  const t = e.target.closest('[data-v],[data-sel],[data-copy],[data-doc],[data-guide],[data-drv],[data-rate],[data-cur],[data-ex],[data-area],[data-ph],[data-sub],[data-trip],[data-x],[data-toc],[data-ecur],[data-ecat],[data-ewho],[data-delexp],#tripBtn,#fullX,#vwX,#vwZ,#rdX,#rdTop');
+  const sr = e.target.closest('button.sr');
+  if (sr && !sr.dataset.go){ if (sr.dataset.copy){ copy(sr.dataset.copy); return; } sr.dataset.go = 1; history.back(); setTimeout(() => sr.click(), 70); return; }
+  const t = e.target.closest('[data-v],[data-sel],[data-copy],[data-doc],[data-guide],[data-drv],[data-rate],[data-cur],[data-ex],[data-area],[data-ph],[data-sub],[data-trip],[data-x],[data-toc],[data-ecur],[data-ecat],[data-ewho],[data-delexp],[data-stay],[data-goday],[data-me],[data-theme],#srch,#wqx,#tripBtn,#fullX,#vwX,#vwZ,#rdX,#rdTop');
   if (!t) return;
   const ds = t.dataset;
   if (ds.v){ view = ds.v; sub = null; LS.set('view', view); render(); return; }
+  if (t.id === 'srch'){ openSearch(); return; }
+  if (ds.theme){ LS.set('theme', ds.theme); applyTheme(ds.theme); document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('on', b === t)); return; }
+  if (t.id === 'wqx'){ const i = $('#wq'); i.value = ''; wfilter(); i.focus(); return; }
+  if (ds.stay){ const st = stayOn(ds.stay); if (st) sheet(stayHTML(st, ds.stay, 'Night of ' + fmtD(ds.stay))); return; }
+  if (ds.goday){ view = 'plan'; sub = null; sel = ds.goday; LS.set('sel:' + TI.id, sel); render(); return; }
+  if (ds.me){ LS.set('me', ds.me); LS.set('ewho', ds.me); document.querySelectorAll('[data-me]').forEach(b => b.classList.toggle('on', b === t)); toast(ds.me === 'S' ? "Saanika's phone" : "Manan's phone"); return; }
   if (t.id === 'tripBtn'){ sheet(`<h3 style="font:600 22px var(--serif);margin:0 4px 6px">Our trips</h3>` + tripsHTML()); return; }
   if (ds.trip){ if ($('#sheet').classList.contains('hidden')) setTrip(ds.trip); else { history.back(); setTimeout(() => setTrip(ds.trip), 30); } return; }
-  if (ds.sel !== undefined){ if (!ds.sel) return; sel = ds.sel; LS.set('sel:' + TI.id, sel); render(); return; }
+  if (ds.sel !== undefined){ if (!ds.sel) return; if (view === 'plan' && sel) ANIM = ds.sel === 'all' ? 'dl' : sel === 'all' ? 'dr' : ds.sel > sel ? 'dr' : 'dl'; sel = ds.sel; LS.set('sel:' + TI.id, sel); render(); return; }
   if (ds.copy){ copy(ds.copy); return; }
   if (ds.doc){ openDoc(ds.doc); return; }
   if (ds.guide){ openGuide(ds.guide); return; }
@@ -851,39 +1275,40 @@ document.addEventListener('click', e => {
   if (t.id === 'rdTop'){ $('#rdSc').scrollTo({top:0, behavior:'smooth'}); return; }
   if (ds.toc){ const h = $('#rdSc')._hs[+ds.toc]; if (h) $('#rdSc').scrollTo({top:h.offsetTop - 8, behavior:'smooth'}); return; }
   if (ds.cur){ LS.set('cur', ds.cur); document.querySelectorAll('[data-cur]').forEach(b => b.classList.toggle('on', b === t)); calc(); return; }
-  if (ds.ecur){ LS.set('ecur', ds.ecur); document.querySelectorAll('[data-ecur]').forEach(b => b.classList.toggle('on', b === t)); return; }
+  if (ds.ecur){ LS.set('ecur', ds.ecur); LS.set('cur', ds.ecur); document.querySelectorAll('[data-ecur]').forEach(b => b.classList.toggle('on', b === t)); return; }
   if (ds.ecat){ LS.set('ecat', ds.ecat); document.querySelectorAll('[data-ecat]').forEach(b => b.classList.toggle('on', b === t)); return; }
   if (ds.ewho){ LS.set('ewho', ds.ewho); document.querySelectorAll('[data-ewho]').forEach(b => b.classList.toggle('on', b === t)); return; }
-  if (ds.delexp !== undefined){ if (t.dataset.armed){ const ex = LJ('exp:' + TI.id, []); ex.splice(+ds.delexp, 1); LS.set('exp:' + TI.id, JSON.stringify(ex)); render(true); } else { t.dataset.armed = 1; t.textContent = 'Delete?'; setTimeout(() => { if (t.isConnected){ delete t.dataset.armed; t.textContent = '✕'; } }, 2500); } return; }
+  if (ds.delexp !== undefined){ if (t.dataset.armed){ const ex = LJ('exp:' + TI.id, []), gone = ex.splice(+ds.delexp, 1)[0]; if (gone){ const dl = LJ('expdel:' + TI.id, []); dl.push(eid(gone)); LS.set('expdel:' + TI.id, JSON.stringify(dl)); } LS.set('exp:' + TI.id, JSON.stringify(ex)); render(true); } else { t.dataset.armed = 1; t.textContent = 'Delete?'; setTimeout(() => { if (t.isConnected){ delete t.dataset.armed; t.textContent = '✕'; } }, 2500); } return; }
   if (ds.rate){
     const c = ds.rate, R = rates(), inp = document.createElement('input'); inp.value = R[c]; inp.inputMode = 'decimal';
-    inp.style.cssText = 'width:96px;background:#0f1218;border:1px solid var(--gold);border-radius:10px;color:#fff;padding:6px 8px;font-size:13px';
+    inp.className = 'rate-in'; inp.style.cssText = 'width:112px;background:var(--card2);border:1px solid var(--gold);border-radius:10px;color:var(--text);padding:6px 8px;font-size:16px';
     t.replaceWith(inp); inp.focus(); inp.select();
-    const save = () => { const n = parseFloat(inp.value); if (n > 0){ const r = LJ('rates', {}); r[c] = n; LS.set('rates', JSON.stringify(r)); } render(true); };
+    const save = () => { const n = parseFloat(inp.value); if (n > 0 && n !== R[c]){ const r = LJ('rates2', {}); r[c] = {v:n, at:Date.now()}; LS.set('rates2', JSON.stringify(r)); } render(true); };
     inp.addEventListener('blur', save); inp.addEventListener('keydown', ev => { if (ev.key === 'Enter') inp.blur(); });
     return;
   }
   const x = ds.x;
   if (x === 'geo') locate();
-  if (x === 'wx'){ view = 'explore'; exSeg = 'weather'; render(); refreshWx(); }
+  if (x === 'wx'){ if (sheetOpen()) history.back(); view = 'explore'; exSeg = 'weather'; render(); refreshWx(); }
   if (x === 'lock'){ LS.del('k'); LS.del('k2'); location.reload(); }
   if (x === 'refresh'){ try { navigator.serviceWorker.getRegistration().then(r => r && r.update()); } catch(e){} toast('Checking…'); setTimeout(() => location.reload(), 1500); }
-  if (x === 'packreset'){ LS.set('pack:' + TI.id, '{}'); render(true); }
-  if (x === 'addexp'){
-    const a = parseFloat(($('#eAmt').value || '').replace(/,/g,'')); if (!(a > 0)){ toast('Enter an amount'); return; }
-    const ex = LJ('exp:' + TI.id, []), now = new Date();
-    ex.push({d:ymd(now), t:now.getTime(), a, c:LS.get('ecur') || 'EGP', k:LS.get('ecat') || 'Food', w:LS.get('ewho') || 'M', n:$('#eNote').value.trim()});
-    LS.set('exp:' + TI.id, JSON.stringify(ex)); toast('Added'); render(true);
-  }
+  if (x === 'packreset'){ const ks = Object.keys(LJ('pack:' + TI.id, {})); if (!ks.length){ toast('Nothing ticked yet'); return; } ks.forEach(k => stamp('pack:' + k)); LS.set('pack:' + TI.id, '{}'); toast('Unticked ' + ks.length); render(true); }
+  if (x === 'addexp'){ if (addExpense()){ toast('Added'); if (sheetOpen()){ history.back(); setTimeout(() => render(true), 230); } else render(true); } }
+  if (x === 'qexp'){ sheet(`<h3 style="font:600 22px var(--serif);margin:0 4px 10px">Add expense</h3>` + expForm()); }
+  if (x === 'syncsend') syncSend();
+  if (x === 'syncpaste'){ const v = $('#syncTxt').value; if (!v.trim()){ toast('Paste the sync text first'); return; } syncIn(v); }
   if (x === 'csv'){ const R = rates(), ex = LJ('exp:' + TI.id, []); copy('date,amount,currency,inr,category,who,note\n' + ex.map(e => [e.d, e.a, e.c, Math.round(e.a*(R[e.c]||1)), e.k, e.w==='S'?'Saanika':'Manan', '"' + (e.n||'').replace(/"/g,'""') + '"'].join(',')).join('\n'), 'expenses as CSV'); }
 });
 document.addEventListener('change', e => {
   const d = e.target.dataset;
-  if (d.prep){ const st = prepState(); if (e.target.checked) st[d.prep] = 1; else delete st[d.prep]; LS.set('prep:' + TI.id, JSON.stringify(st)); render(true); }
-  if (d.pack){ const st = LJ('pack:' + TI.id, {}); if (e.target.checked) st[d.pack] = 1; else delete st[d.pack]; LS.set('pack:' + TI.id, JSON.stringify(st)); render(true); }
+  if (d.prep){ const st = prepState(); if (e.target.checked) st[d.prep] = 1; else delete st[d.prep]; LS.set('prep:' + TI.id, JSON.stringify(st)); stamp('prep:' + d.prep); setTimeout(() => render(true), 260); }
+  if (d.pack){ const st = LJ('pack:' + TI.id, {}); if (e.target.checked) st[d.pack] = 1; else delete st[d.pack]; LS.set('pack:' + TI.id, JSON.stringify(st)); stamp('pack:' + d.pack); setTimeout(() => render(true), 260); }
+  if (e.target.id === 'syncFile' && e.target.files[0]){ e.target.files[0].text().then(syncIn); e.target.value = ''; }
 });
 document.addEventListener('input', e => {
   if (e.target.id === 'amt') calc();
+  if (e.target.id === 'q') renderSearch(e.target.value);
+  if (e.target.id === 'wq') wfilter();
   if (e.target.dataset.jr){ const j = LJ('jr:' + TI.id, {}); j[e.target.dataset.jr] = e.target.value; LS.set('jr:' + TI.id, JSON.stringify(j)); }
 });
 let tx = null, ty = 0;
@@ -893,7 +1318,7 @@ document.addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
   if (Math.abs(dx) < 70 || Math.abs(dy) > 50) return;
   const D = T.data, i = D.days.findIndex(d => d.date === sel), j = i + (dx < 0 ? 1 : -1);
-  if (D.days[j]){ sel = D.days[j].date; LS.set('sel:' + TI.id, sel); render(); }
+  if (D.days[j]){ ANIM = j > i ? 'dr' : 'dl'; sel = D.days[j].date; LS.set('sel:' + TI.id, sel); render(); }
 }, {passive:true});
 async function refreshWx(){
   if (!T || !T.places || !navigator.onLine) return;
@@ -912,7 +1337,7 @@ async function start(key, idx){
   view = LS.get('view') || 'today'; if (!['today','plan','wallet','explore','more'].includes(view)) view = 'today';
   await setTrip(want && IDX.trips.some(t => t.id === want) ? want : defaultTrip().id, true);
   setInterval(() => { if (view === 'today' && $('#vw').classList.contains('hidden') && $('#rd').classList.contains('hidden') && !document.activeElement.matches('input,textarea')) render(true); }, 30000);
-  setTimeout(precache, 500); setTimeout(refreshWx, 1500);
+  setTimeout(precache, 500); setTimeout(refreshWx, 1500); setTimeout(() => ratesFetch().then(v => { if (v && view === 'more' && sub === 'money') render(true); }), 2200);
 }
 async function unlockPass(pass, remember){
   const key = await deriveKey(pass), idx = await decInline(key);
@@ -926,12 +1351,12 @@ $('#lockForm').addEventListener('submit', async e => {
   catch(err){ $('#lockErr').textContent = 'Wrong passcode — try again.'; }
   $('#go').disabled = false; $('#go').textContent = 'Open';
 });
-window.addEventListener('online', () => { pill(); precache(); refreshWx(); });
+window.addEventListener('online', () => { pill(); precache(); refreshWx(); ratesFetch(); });
 window.addEventListener('offline', pill);
 (async () => {
   try {
     const k2 = LS.get('k2');
-    if (k2){ const key = await crypto.subtle.importKey('raw', b64(k2), {name:'AES-GCM'}, false, ['decrypt']); return await start(key, await decInline(key)); }
+    if (k2){ const key = await crypto.subtle.importKey('raw', b64(k2), {name:'AES-GCM'}, false, ['encrypt','decrypt']); return await start(key, await decInline(key)); }
     const k = LS.get('k'); if (k) return await unlockPass(k, true);
   } catch(e){ LS.del('k2'); LS.del('k'); }
 })();

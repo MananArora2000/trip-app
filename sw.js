@@ -1,5 +1,5 @@
 // Trip '26 service worker: app shell cache-first (refreshed in background), encrypted docs (d/*.webp = AES-GCM ciphertext, not real images) cache-first forever.
-const CACHE = 'trip-2ec93ba1cc';
+const CACHE = 'trip-a52c75cfe7';
 const DOCS = 'trip-docs-v1';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });

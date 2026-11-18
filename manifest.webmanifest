@@ -1,6 +1,6 @@
 {
-  "name": "Trip '26",
-  "short_name": "Trip '26",
+  "name": "Our trips",
+  "short_name": "Our trips",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
