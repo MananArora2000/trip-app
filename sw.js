@@ -1,5 +1,5 @@
 // Our trips service worker: app shell cache-first (refreshed in background), encrypted docs (d/*.webp = AES-GCM ciphertext, not real images) cache-first forever.
-const CACHE = 'trip-b632eb6887';
+const CACHE = 'trip-15f73ee25a';
 const DOCS = 'trip-docs-v1';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 // cache:'reload' so a new version never picks up a stale copy from the browser's HTTP cache (GitHub Pages sends max-age=600)
